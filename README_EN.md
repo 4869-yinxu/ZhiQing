@@ -10,7 +10,7 @@ An intelligent knowledge management system based on RAG (Retrieval-Augmented Gen
 
 ## Online Demo
 
-**Demo URL**: [http://115.120.244.180:8080/](http://115.120.244.180:8080/)
+**Demo URL**: [http://172.22.182.54/](http://172.22.182.54/)
 
 *Demo environment is for experience only, please do not upload sensitive information*
 
@@ -477,25 +477,19 @@ For technical support or business cooperation, you can directly contact the auth
   - Document upload queue system: Support batch document upload and progress monitoring
   - Professional chunking methods: Added chapter chunking, semantic chunking, sliding window chunking and other strategies
   - Custom delimiter chunking: Support user-defined delimiters for document chunking
-  - Knowledge duplicate check: Intelligent identification of duplicate or similar knowledge fragments
-  - Real-time monitoring dashboard: System status monitoring and task progress tracking
 - **Optimizations**:
   - Refactored API code, reduced duplicate code by 60%+
   - Optimized document chunking algorithms, improved chunking quality
   - Enhanced user interface, improved user experience
   - Optimized error handling and user prompts
-  - Intelligent progress estimation with "fast at beginning, slow at end" strategy
 - **Bug Fixes**:
   - Fixed knowledge base name uniqueness check issue
   - Fixed user information retrieval issue during document upload
   - Fixed frontend error message display issue
-  - Fixed sensitive word filtering for Chinese text
-  - Fixed chunking method display in frontend
 - **Documentation Updates**:
   - Improved installation documentation and troubleshooting guide
   - Optimized dependency installation process
   - Added online demo address
-  - Enhanced project structure documentation
 
 ### v0.0.1-beta (2025-05-30)
 - Initial version release
