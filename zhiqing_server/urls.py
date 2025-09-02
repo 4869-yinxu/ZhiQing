@@ -19,6 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from . import health_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,6 +27,9 @@ urlpatterns = [
     path('api/v1/knowledge/', include('knowledge_mgt.urls')),
     path('api/v1/system/', include('system_mgt.urls')),
     path('api/v1/chat/', include('chat_mgt.urls')),
+    # 健康检查端点
+    path('health/', health_views.health_check, name='health_check'),
+    path('health/simple/', health_views.simple_health_check, name='simple_health_check'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

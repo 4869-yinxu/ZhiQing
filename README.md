@@ -397,21 +397,125 @@ ZhiQing/
    - 配置日志记录
 
 ### Docker部署
-```bash
-# 构建镜像
-docker build -t zhiqing .
 
-# 运行容器
+#### 快速开始
+
+1. **克隆项目并进入目录**
+```bash
+git clone <repository-url>
+cd ZhiQing
+```
+
+2. **配置环境变量**
+```bash
+# 复制环境变量模板
+cp env.example .env
+
+# 编辑环境变量（根据需要修改）
+vim .env
+```
+
+3. **启动服务**
+```bash
+# 开发环境
+docker-compose up -d
+
+# 生产环境
+docker-compose -f docker-compose.prod.yml up -d
+```
+
+#### 详细说明
+
+**开发环境部署：**
+```bash
+# 构建并启动所有服务
+docker-compose up -d
+
+# 查看服务状态
+docker-compose ps
+
+# 查看日志
+docker-compose logs -f
+
+# 停止服务
+docker-compose down
+```
+
+**生产环境部署：**
+```bash
+# 使用生产配置启动
+docker-compose -f docker-compose.prod.yml up -d
+
+# 查看生产环境服务状态
+docker-compose -f docker-compose.prod.yml ps
+
+# 停止生产环境服务
+docker-compose -f docker-compose.prod.yml down
+```
+
+**单独构建镜像：**
+```bash
+# 构建后端镜像
+docker build -t zhiqing-backend .
+
+# 构建前端镜像
+docker build -t zhiqing-frontend ./zhiqing_ui
+
+# 运行单个容器
 docker run -d \
-  --name zhiqing \
+  --name zhiqing-backend \
   -p 8000:8000 \
-  -p 3000:3000 \
   -v $(pwd)/data:/app/data \
   -v $(pwd)/models:/app/models \
-  zhiqing
+  -v $(pwd)/media:/app/media \
+  -v $(pwd)/logs:/app/logs \
+  zhiqing-backend
+```
 
-# 使用Docker Compose（推荐）
-docker-compose up -d
+#### 服务说明
+
+- **后端服务**: 端口8000，Django应用
+- **前端服务**: 端口80，Vue.js应用
+- **MySQL数据库**: 端口3306
+- **Redis缓存**: 端口6379
+- **Nginx代理**: 端口8080（开发环境）或80/443（生产环境）
+
+#### 数据持久化
+
+以下目录会被挂载到宿主机，确保数据持久化：
+- `./data` - 文档数据
+- `./models` - AI模型文件
+- `./media` - 媒体文件
+- `./logs` - 日志文件
+- `mysql_data` - MySQL数据（Docker卷）
+- `redis_data` - Redis数据（Docker卷）
+
+#### 健康检查
+
+访问以下端点检查服务状态：
+- 后端健康检查: `http://localhost:8000/health/`
+- 前端页面: `http://localhost:80`
+- 完整应用: `http://localhost:8080`（通过Nginx代理）
+
+#### 故障排除
+
+```bash
+# 查看容器日志
+docker-compose logs backend
+docker-compose logs frontend
+docker-compose logs mysql
+
+# 进入容器调试
+docker-compose exec backend bash
+docker-compose exec mysql mysql -u root -p
+
+# 重新构建镜像
+docker-compose build --no-cache
+
+# 清理所有容器和卷
+docker-compose down -v
+docker system prune -a
+```
 ```
 
 ### 云服务器部署
@@ -472,44 +576,5 @@ docker-compose up -d
 
 
 
-
-## 更新日志
-
-### v0.0.1 (2025-06-15)
-- **正式版本发布**
-- **新增功能**:
-  - 召回检索测试功能：支持向量检索质量测试和参数调优
-  - 文档上传队列系统：支持批量文档上传和进度监控
-  - 专业分块方式：新增章节分块、语义分块、滑动窗口分块等多种分块策略
-  - 自定义分隔符分块：支持用户自定义分隔符进行文档分块
-  - 知识查重看板：智能识别重复或相似的知识片段
-  - 实时监控看板：系统状态监控和任务进度跟踪
-- **功能优化**:
-  - 重构API代码，减少重复代码60%+
-  - 优化文档分块算法，提升分块质量
-  - 改进用户界面，提升用户体验
-  - 优化错误处理和用户提示
-  - 智能进度预估：采用"前快后慢"的时间分布策略
-- **问题修复**:
-  - 修复知识库名称唯一性检查问题
-  - 修复文档上传时的用户信息获取问题
-  - 修复前端错误信息显示问题
-  - 修复中文敏感词过滤问题
-  - 修复前端分块方式显示问题
-- **文档更新**:
-  - 完善安装文档和故障排除指南
-  - 优化依赖安装流程
-  - 添加在线演示地址
-  - 完善项目结构文档
-
-### v0.0.1-beta (2025-05-30)
-- 初始版本发布
-- 实现基础的RAG问答功能
-- 支持多种大语言模型集成
-- 实现嵌入模型管理
-- 完成用户权限系统
-- 实现知识库管理功能
-
----
 
 **注意**: 首次安装可能需要较长时间，特别是下载PyTorch等大型包时，请耐心等待。

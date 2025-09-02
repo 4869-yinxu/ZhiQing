@@ -83,7 +83,7 @@ cd ZhiQing
 
 2. **Install Frontend Dependencies**
 ```bash
-cd open_ragbook_ui
+cd zhiqing_ui
 npm install
 ```
 
@@ -132,7 +132,7 @@ cd ZhiQing
 
 2. **Install Frontend Dependencies**
 ```bash
-cd open_ragbook_ui
+cd zhiqing_ui
 npm install
 ```
 
@@ -226,7 +226,7 @@ cp .env.dev .env
 
 Frontend development server:
 ```bash
-cd open_ragbook_ui
+cd zhiqing_ui
 npm run dev
 # Frontend will start at http://localhost:3000
 ```
@@ -313,7 +313,7 @@ The system supports configuration of multiple large language models and embeddin
 ### Project Structure
 ```
 ZhiQing/
-├── open_ragbook_ui/          # Frontend project
+├── zhi'qingui/          # Frontend project
 │   ├── src/
 │   │   ├── components/      # Common components
 │   │   ├── views/           # Page components
@@ -368,7 +368,7 @@ ZhiQing/
 
 2. **Frontend Deployment**
    ```bash
-   cd open_ragbook_ui
+   cd zhiqing_ui
    npm run build
    # Deploy dist directory to web server
    ```
@@ -387,21 +387,124 @@ ZhiQing/
    - Configure logging
 
 ### Docker Deployment
-```bash
-# Build image
-docker build -t zhiqing .
 
-# Run container
+#### Quick Start
+
+1. **Clone project and enter directory**
+```bash
+git clone <repository-url>
+cd ZhiQing
+```
+
+2. **Configure environment variables**
+```bash
+# Copy environment variable template
+cp env.example .env
+
+# Edit environment variables (modify as needed)
+vim .env
+```
+
+3. **Start services**
+```bash
+# Development environment
+docker-compose up -d
+
+# Production environment
+docker-compose -f docker-compose.prod.yml up -d
+```
+
+#### Detailed Instructions
+
+**Development Environment Deployment:**
+```bash
+# Build and start all services
+docker-compose up -d
+
+# Check service status
+docker-compose ps
+
+# View logs
+docker-compose logs -f
+
+# Stop services
+docker-compose down
+```
+
+**Production Environment Deployment:**
+```bash
+# Start with production configuration
+docker-compose -f docker-compose.prod.yml up -d
+
+# Check production environment service status
+docker-compose -f docker-compose.prod.yml ps
+
+# Stop production environment services
+docker-compose -f docker-compose.prod.yml down
+```
+
+**Build Images Separately:**
+```bash
+# Build backend image
+docker build -t zhiqing-backend .
+
+# Build frontend image
+docker build -t zhiqing-frontend ./zhiqing_ui
+
+# Run single container
 docker run -d \
-  --name zhiqing \
+  --name zhiqing-backend \
   -p 8000:8000 \
-  -p 3000:3000 \
   -v $(pwd)/data:/app/data \
   -v $(pwd)/models:/app/models \
-  zhiqing
+  -v $(pwd)/media:/app/media \
+  -v $(pwd)/logs:/app/logs \
+  zhiqing-backend
+```
 
-# Use Docker Compose (recommended)
-docker-compose up -d
+#### Service Description
+
+- **Backend Service**: Port 8000, Django application
+- **Frontend Service**: Port 80, Vue.js application
+- **MySQL Database**: Port 3306
+- **Redis Cache**: Port 6379
+- **Nginx Proxy**: Port 8080 (development) or 80/443 (production)
+
+#### Data Persistence
+
+The following directories will be mounted to the host machine to ensure data persistence:
+- `./data` - Document data
+- `./models` - AI model files
+- `./media` - Media files
+- `./logs` - Log files
+- `mysql_data` - MySQL data (Docker volume)
+- `redis_data` - Redis data (Docker volume)
+
+#### Health Check
+
+Access the following endpoints to check service status:
+- Backend health check: `http://localhost:8000/health/`
+- Frontend page: `http://localhost:80`
+- Complete application: `http://localhost:8080` (via Nginx proxy)
+
+#### Troubleshooting
+
+```bash
+# View container logs
+docker-compose logs backend
+docker-compose logs frontend
+docker-compose logs mysql
+
+# Enter container for debugging
+docker-compose exec backend bash
+docker-compose exec mysql mysql -u root -p
+
+# Rebuild images
+docker-compose build --no-cache
+
+# Clean up all containers and volumes
+docker-compose down -v
+docker system prune -a
 ```
 
 ### Cloud Server Deployment
@@ -467,38 +570,5 @@ For technical support or business cooperation, you can directly contact the auth
 ![Author WeChat QR Code](./docs/images/author-wechat-qr.jpg)
 
 *Please note: Open RAGBook when adding*
-
-## Changelog
-
-### v0.0.1 (2025-06-15)
-- **Official Release**
-- **New Features**:
-  - Recall retrieval testing: Support vector retrieval quality testing and parameter tuning
-  - Document upload queue system: Support batch document upload and progress monitoring
-  - Professional chunking methods: Added chapter chunking, semantic chunking, sliding window chunking and other strategies
-  - Custom delimiter chunking: Support user-defined delimiters for document chunking
-- **Optimizations**:
-  - Refactored API code, reduced duplicate code by 60%+
-  - Optimized document chunking algorithms, improved chunking quality
-  - Enhanced user interface, improved user experience
-  - Optimized error handling and user prompts
-- **Bug Fixes**:
-  - Fixed knowledge base name uniqueness check issue
-  - Fixed user information retrieval issue during document upload
-  - Fixed frontend error message display issue
-- **Documentation Updates**:
-  - Improved installation documentation and troubleshooting guide
-  - Optimized dependency installation process
-  - Added online demo address
-
-### v0.0.1-beta (2025-05-30)
-- Initial version release
-- Implemented basic RAG Q&A functionality
-- Support for multiple large language model integration
-- Implemented embedding model management
-- Completed user permission system
-- Implemented knowledge base management functionality
-
----
 
 **Note**: Initial installation may take a long time, especially when downloading large packages like PyTorch. Please be patient.
