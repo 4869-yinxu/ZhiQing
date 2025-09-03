@@ -516,47 +516,9 @@ docker-compose build --no-cache
 docker-compose down -v
 docker system prune -a
 ```
-```
 
-### 云服务器部署
-1. **阿里云/腾讯云等**
-   - 选择2核4GB以上配置
-   - 安装Docker和Docker Compose
-   - 配置安全组开放端口
-   - 使用域名和SSL证书
 
-2. **服务器配置建议**
-   - CPU: 2核以上
-   - 内存: 4GB以上
-   - 存储: 50GB以上SSD
-   - 网络: 带宽5Mbps以上
 
-## 贡献指南
-
-欢迎提交Issue和Pull Request来帮助改进项目。
-
-### 开发环境搭建
-1. Fork项目到您的GitHub账户
-2. 克隆您的Fork到本地
-3. 创建功能分支：`git checkout -b feature/your-feature`
-4. 安装依赖并配置环境
-5. 进行开发和测试
-
-### 提交流程
-1. 提交更改：`git commit -m "feat: add new feature"`
-2. 推送到您的Fork：`git push origin feature/your-feature`
-3. 在GitHub上创建Pull Request
-4. 等待代码审查和合并
-
-### 代码规范
-- 遵循PEP 8 Python代码规范
-- 使用有意义的变量和函数名
-- 添加必要的注释和文档字符串
-- 编写单元测试覆盖新功能
-
-## 许可证
-
-本项目采用MIT许可证，详见LICENSE文件。
 
 ## 联系我们
 

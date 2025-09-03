@@ -507,46 +507,6 @@ docker-compose down -v
 docker system prune -a
 ```
 
-### Cloud Server Deployment
-1. **Alibaba Cloud/Tencent Cloud, etc.**
-   - Choose 2-core 4GB or higher configuration
-   - Install Docker and Docker Compose
-   - Configure security group to open ports
-   - Use domain name and SSL certificate
-
-2. **Server Configuration Recommendations**
-   - CPU: 2 cores or more
-   - Memory: 4GB or more
-   - Storage: 50GB or more SSD
-   - Network: 5Mbps or higher bandwidth
-
-## Contributing
-
-Welcome to submit Issues and Pull Requests to help improve the project.
-
-### Development Environment Setup
-1. Fork project to your GitHub account
-2. Clone your Fork to local
-3. Create feature branch: `git checkout -b feature/your-feature`
-4. Install dependencies and configure environment
-5. Develop and test
-
-### Submission Process
-1. Submit changes: `git commit -m "feat: add new feature"`
-2. Push to your Fork: `git push origin feature/your-feature`
-3. Create Pull Request on GitHub
-4. Wait for code review and merge
-
-### Code Standards
-- Follow PEP 8 Python code standards
-- Use meaningful variable and function names
-- Add necessary comments and docstrings
-- Write unit tests to cover new features
-
-## License
-
-This project is licensed under the MIT License. See LICENSE file for details.
-
 ## Contact
 
 If you have questions or suggestions, please contact us through:
